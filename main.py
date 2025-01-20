@@ -30,7 +30,7 @@ def crawl_page(url, query, visited_urls, max_threads=8):  # Add max_threads para
         soup = BeautifulSoup(response.text, 'html.parser')
 
         all_text = soup.get_text(separator=" ", strip=True)
-        matches = [(text, url) for text in all_text.split() if query.lower() in text.lower()]
+        matches = [(query.lower(), url)] if query.lower() in all_text.lower() else []
 
         links = [link['href'] for link in soup.find_all('a', href=True) if link['href'].startswith('/') or link['href'].startswith(url)]
         links = [urljoin(url, link) for link in links]
